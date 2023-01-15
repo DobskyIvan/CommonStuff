@@ -1,0 +1,5 @@
+Kernel for AIO-3399j:
+https://gitlab.com/TeeFirefly/FireNow-Nougat/-/tree/firefly-rk3399/
+
+Ubuntu image
+https://drive.google.com/drive/folders/1EjKpGK1m_4-KXVT2oroHkNsPWPl-faQX
