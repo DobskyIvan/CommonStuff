@@ -1,0 +1,11 @@
+﻿1. Создать файл /root/usb-mount.sh (содержание файла находится в папке).
+  
+2. Сделать файл исполняемым: chmod +x usb-mount.sh
+  
+3. Создать файл /etc/systemd/system/usb-mount@.service
+  
+4. Создать файл /etc/udev/rules.d/99-local.rules  
+
+5. Перезагрузить правила:
+	udevadm control --reload-rules
+	systemctl daemon-reload
