@@ -58,12 +58,13 @@ int main(void){
 			return 1;
 		}
 		if(ie.type == EV_KEY && ie.code == 116){
-			printf("Button toggle event caught with value %d\n", ie.value);
+			printf("From powerctlScript: Power button toggle event caught with value %d\n", ie.value);
+			//DO SOME ACTION
 			system("shutdown now");
 		}
 		#endif /*GET_INPUT_EVENT*/
 //	}
-	printf("From powerctlScript: DONE!\n");
+	printf("From powerctlScript: Custom power manager stop here!\n");
 	close(pwrButtonEvent_fd);
 	return 0;
 }

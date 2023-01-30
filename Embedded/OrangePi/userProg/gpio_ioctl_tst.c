@@ -11,12 +11,13 @@
 
 #include <time.h>
 
-#define DEV_NAME "/dev/gpiochip0"
+#define DEV_NAME "/dev/gpiochip1"
 //#define GET_INFO_GPIO
-//#define PRINT_CHIPINFO
-//#define PRINT_LINEINFO
-#define SET_OUTPUT
-//#define GET_INPUT
+#define PRINT_CHIPINFO
+#define PRINT_LINEINFO
+//#define SET_OUTPUT
+#define BLINK_OUTPUT //very bad exit
+#define GET_INPUT
 
 void delay_ms(int ms);
 
@@ -71,8 +72,8 @@ int main(void){
 
 	#ifdef GET_INPUT
 		struct gpiohandle_request rq;
-		rq.lineoffsets[0]=4; //what line
-		//rq.flags = GPIOHANDLE_REQUEST_INPUT;
+		rq.lineoffsets[0]=121; //what line, 121-PD25
+		rq.flags = GPIOHANDLE_REQUEST_INPUT;
 		rq.lines = 1; //how much lines
 		ret=ioctl(fd, GPIO_GET_LINEHANDLE_IOCTL, &rq);
 		if (ret == -1){
@@ -88,15 +89,14 @@ int main(void){
 			return 1;
 		}
 		else{
-			printf("Value of GPIO at offset 4: %d\n", data.values[0]);
+			printf("Value of GPIO at offset %d: %d\n",rq.lineoffsets[0], data.values[0]);
 		}
 		close(rq.fd);
 	#endif /*GET_INPUT*/
 
-/*OrPI 3 LTS pin offset:4 is green_led seted to output, let him blink... */
 	#ifdef SET_OUTPUT
 		struct gpiohandle_request rq;
-		rq.lineoffsets[0]=4; //what line
+		rq.lineoffsets[0]=122; //what line, 122- PD26
 		rq.lines = 1; //how much lines
 		rq.flags = GPIOHANDLE_REQUEST_OUTPUT;
 		ret=ioctl(fd, GPIO_GET_LINEHANDLE_IOCTL, &rq);
@@ -106,14 +106,22 @@ int main(void){
 		}
 		close(fd);
 		struct gpiohandle_data data;
-		//data.values[0] = 0; //reset
-		data.values[0] = 1; //set
+		data.values[0] = 0;
+		#ifdef BLINK_OUTPUT
+			printf("Blinking loop starts, press 'Ctrl-C' to break the programm..\n");
+			while(1){
+		#endif /*BLINK_OUTPUT*/
+		data.values[0] = !data.values[0]; //0- reset, 1- set
 		ret=ioctl(rq.fd, GPIOHANDLE_SET_LINE_VALUES_IOCTL, &data);
 		if (ret == -1){
 			printf("Unable to set line values using ioctl: %s\n", strerror(errno));
 			close(rq.fd);
 			return 1;
 		}
+		#ifdef BLINK_OUTPUT
+			delay_ms(1000);
+			}
+		#endif /*BLINK_OUTPUT*/
 		close(rq.fd);
 	#endif /*SET_OUTPUT*/
 
