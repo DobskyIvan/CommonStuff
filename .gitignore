@@ -1,1 +1,10 @@
+# ignore:
 /private
+/RTOS/FreeRTOS/Example/*
+
+# except:
+!/RTOS/FreeRTOS/Example/*.uvprojx
+!/RTOS/FreeRTOS/Example/FreeRTOS
+!/RTOS/FreeRTOS/Example/Startup
+!/RTOS/FreeRTOS/Example/System
+!/RTOS/FreeRTOS/Example/User
