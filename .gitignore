@@ -1,6 +1,7 @@
 # ignore:
 /private
 /RTOS/FreeRTOS/Example/*
+/AD_/History/*
 ~*.*
 # except:
 !/RTOS/FreeRTOS/Example/*.uvprojx
